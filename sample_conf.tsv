@@ -1,0 +1,7 @@
+start={host}/api/Root?{apikey}	workers=3
+DISCARD This config file is used in the test.py, and is also presented to demonstrate the available features.
+VARS	host=http://example.com	apikey=apikey=12345
+URLMATCH								SAVEAS			FIND									    TRANSFORM
+^{host}/api/Root\?						false			<a href="(?P<url>[^"]+?)">followme</a>	    {host}{url}?{apikey}
+^{host}/api/Thing/						false			<a href="(?P<url>[^"]+?)".*?>downloadme</a>	{host}{url}
+^{host}/api/dl/(?P<ID>[^/?]+)\.zip$		test_{ID}.txt	false               					    false
