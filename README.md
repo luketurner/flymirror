@@ -25,7 +25,7 @@ Usage
 
 This script is basically a configurable scraper, so unless you have a configuration, it doesn't do anything. Pass it the configuration to use as a command line parameter.
 
-  flymirror.py sample_conf.tsv
+    flymirror.py sample_conf.tsv
 
 The test script will use the existing sample_conf.tsv. To test, just run `test.py`.
 
@@ -37,15 +37,15 @@ The config file format is intended to make it easier to write regular expression
 
 The first row is special. It must contain a set of configuration options of the form `option=value`, separated by tabs.
 
-  start=<no default>	url to start mirroring from (must match a rule or nothing will happen)
-  workers=5				number of workers to use for mirroring
+    start=<no default>	url to start mirroring from (must match a rule or nothing will happen)
+    workers=5				number of workers to use for mirroring
 
 After the first row, each new row is a "rule" -- it must include the following fields, in order:
 
-  urlmatch		regex	required	rule is used when this regex matches the page URL
-  find			regex	optional	indicates where in the page to find more URLs to continue mirroring
-  transform		string	optional	string to use to format the urls found with "find"
-  saveas		string	optional	filename to save the downloaded document to
+    urlmatch		regex	  required	rule is used when this regex matches the page URL
+    find			  regex	  optional	indicates where in the page to find more URLs to continue mirroring
+    transform		string	optional	string to use to format the urls found with "find"
+    saveas		  string	optional	filename to save the downloaded document to
 
 If a row starts with `URLMATCH`, it is ignored, assuming that the row is being used as a table header.
 
