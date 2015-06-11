@@ -9,7 +9,7 @@ from os.path import exists as file_exists
 from queue import Queue, Empty
 from re import search, finditer
 from sys import argv
-from time import perf_counter
+from time import perf_counter, sleep
 import csv
 
 import requests
@@ -36,7 +36,7 @@ def read_config(fname):
         config = {'workers': 5, 'rules': [], 'vars': {}}
         lineintomap(next(reader), config)
         for line in reader:
-            if len(line) == 0 or line[0] == "URLMATCH" or line[0] == "DISCARD":
+            if len(line) == 0 or line[0] == "URLMATCH" or "DISCARD" in line[0]:
                 continue
             if line[0] == "VARS":
                 lineintomap(line, config['vars'])
@@ -85,7 +85,7 @@ def main():
 
     # Join on both the queues at once (Yeah, this is hacky -- may break in later versions)
     while URLS.unfinished_tasks or RESPONSES.unfinished_tasks:
-        continue
+        sleep(0.3)
 
     # Shut everything down (may take 1 second)
     DONE.put(True)
@@ -146,11 +146,7 @@ def handle_response(config, resp):
 
         if rule.find != 'false':
             for m in finditer(rule.find, resp.text):
-                if transform:
-                    url = (formatwith(transform, config.vars, m.groupdict()))
-                else:
-                    url = m.group('URL')
-                    url = url or m.group(1)
+                url = (formatwith(transform, config.vars, m.groupdict()))
                 URLS.put(url)
 
         perfprint("[OK]", requrl)
