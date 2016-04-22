@@ -66,7 +66,7 @@ def main():
     """Main method executed when run"""
 
     if len(argv) != 2:
-        print("Usage: micromirror.py [rules_file]")
+        print("Usage: flymirror.py [rules_file]")
         return
 
     if not file_exists(argv[1]):
